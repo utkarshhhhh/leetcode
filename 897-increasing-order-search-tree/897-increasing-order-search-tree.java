@@ -22,8 +22,9 @@ class Solution {
         
         helper( root.left );
         
-        ans.right = new TreeNode(root.val);
-        ans = ans.right;
+        root.left = null;
+        ans.right = root;
+        ans = root;
         
         helper( root.right );
         
