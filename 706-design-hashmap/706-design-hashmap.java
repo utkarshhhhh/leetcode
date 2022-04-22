@@ -12,7 +12,7 @@ class MyHashMap {
     private ListNode list[];
     
     public MyHashMap() {
-        list = new ListNode[10000];
+        list = new ListNode[1000];
     }
     
     public void put(int key, int value) {
