@@ -12,7 +12,7 @@ class MyHashMap {
     private ListNode list[];
     
     public MyHashMap() {
-        list = new ListNode[100000];
+        list = new ListNode[10000];
     }
     
     public void put(int key, int value) {
@@ -49,8 +49,7 @@ class MyHashMap {
         for( ; cur!=null && cur.key != key ; cur = cur.next  )
             prev = cur;
         
-        return prev;
-        
+        return prev; 
     }
     
     public void remove(int key) {
