@@ -33,6 +33,8 @@ class Solution {
         Queue<pair> q = new LinkedList<>();
         int fresh = count(grid , q);
         
+        if( fresh == 0 )
+            return time;          
         while( !q.isEmpty() ){
             
             int size = q.size();
@@ -41,20 +43,26 @@ class Solution {
                 
                 pair rem = q.remove();
                 
-                if (grid[rem.i][rem.j] == 1 ){
-                    grid[rem.i][rem.j] = 2;
-                    fresh--;
-                }
-                if( fresh == 0 ){
-                    return time;
-                }
+                // if (grid[rem.i][rem.j] == 1 ){
+                //     grid[rem.i][rem.j] = 2;
+                //     fresh--;
+                // }
+                // if( fresh == 0 ){
+                //     return time;
+                // }
                 
                 for(int i=0 ; i<4 ; i++ ){
                     int r = rem.i + dir[i];
                     int c = rem.j + dir[i+1];
                     
                     if( r>=0 && r<n && c>=0 && c<m && grid[r][c] == 1 ){
-                        q.add( new pair(r,c) );                        
+                        q.add( new pair(r,c) ); 
+                        
+                       
+                            grid[r][c] = 2;
+                            fresh--;                        
+                        if( fresh == 0 )
+                            return time+1;                                         
                     }
                 }                
             }
