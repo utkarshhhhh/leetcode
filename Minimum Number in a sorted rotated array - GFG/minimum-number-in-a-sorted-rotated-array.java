@@ -42,9 +42,9 @@ class Solution
             int mid = low + (high - low) / 2;
             ans = Math.min(ans , arr[mid]);
             
-            if( arr[mid] >= arr[high] ){
+            if( arr[mid] >= arr[high] ){ // if unsorted to aage to milega
                 low = mid+1;
-            }else if( arr[mid] < arr[high] ){
+            }else{      // nhi to sorted h to peeche hee milega
                 high = mid-1;
             }
             
