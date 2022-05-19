@@ -129,35 +129,25 @@ class Tree
     {
         // code here
         
-        ArrayList<Integer> ans = new ArrayList<>();
         Deque<Node> q = new ArrayDeque<>();
-        Stack<ArrayList<Integer>> st = new Stack<>();
+        Stack<Integer> st = new Stack<>();
         q.add(node);
         
         while( !q.isEmpty() ){
-            
-            int size = q.size();
-            ArrayList<Integer> list = new ArrayList<>();
-            while( size-- > 0 ){
                 
                 Node cur = q.removeFirst();
-                list.add(cur.data);
-                if( cur.left != null ){
-                    q.add(cur.left);
-                }
+                st.add(cur.data);
                 if( cur.right != null ){
                     q.add( cur.right );
                 }
-            }
-            st.add(list);
+                if( cur.left != null ){
+                    q.add(cur.left);
+                }
         }
         
+        ArrayList<Integer> ans = new ArrayList<>();
         while( !st.isEmpty() ){
-            
-            ArrayList<Integer> list = st.pop();
-            for(int i : list){
-                ans.add(i);
-            }
+                ans.add( st.pop() );
         }
         
         return ans;
