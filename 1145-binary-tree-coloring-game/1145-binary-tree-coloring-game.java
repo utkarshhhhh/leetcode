@@ -26,15 +26,15 @@ class Solution {
         int left = size(node.left, x);
         int right = size(node.right, x);
         
-        if( node.val == x ){
-            
+        if( node.val == x ){            
             leftSize = left;
-            rightSize = right;
-            
+            rightSize = right;            
         }
         
         return left + right + 1;
     }
+    
+    // block left or right or parent - maxSubtree
     
     public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
         
