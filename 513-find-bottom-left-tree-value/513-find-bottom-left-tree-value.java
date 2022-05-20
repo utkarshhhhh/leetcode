@@ -22,28 +22,18 @@ class Solution {
       
       while( !q.isEmpty() ){
           
-          int size = q.size();
-          int i=0;
-          while( size-- > 0 ){
+            TreeNode cur = q.poll();
               
-              TreeNode cur = q.poll();
-              
-              if( i==0){
-                  ans = cur.val;
-                  i++;
-              }
-              
-              if( cur.left != null ){
-                  q.add(cur.left);
-              }
-              
-              if( cur.right != null ){
-                  q.add(cur.right);
-              }
-              
-          }
+            ans = cur.val;
           
-      }
+            if( cur.right != null ){
+                q.add(cur.right);
+            }
+
+            if( cur.left != null ){
+                q.add(cur.left);
+            }     
+        }
       return (int)ans;
     }
 }
