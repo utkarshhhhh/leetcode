@@ -30,15 +30,14 @@ class Solution {
         for(int i=1 ; i<=amount ; i++){
             int min = Integer.MAX_VALUE;
             
-            for(int j=1 ; j<=n ; j++){
-                if( i-coins[j-1] >= 0 && dp[i-coins[j-1]] != -1){                        
-                        min = Math.min(dp[i-coins[j-1]] ,min);                          
+            for(int coin : coins){
+                if( i-coin >= 0 && dp[i-coin] != -1){                        
+                        min = Math.min(dp[i-coin] ,min);                          
                 }
                 
             }
             dp[i] =  min==Integer.MAX_VALUE?-1 : min+1;
         }
-        return  dp[amount];
-        
+        return  dp[amount];        
     }
 }
