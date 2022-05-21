@@ -15,20 +15,38 @@
  */
 class Solution {
     
-    List<Integer> ans;
-    
-    public void helper(TreeNode root){
-        
-        if( root == null ) return;
-        
-        ans.add(root.val);
-        helper(root.left);
-        helper(root.right);    
-    }
     
     public List<Integer> preorderTraversal(TreeNode root) {
-        ans = new ArrayList<>();
-        helper(root);
+    
+        List<Integer> ans = new ArrayList<>();
+        TreeNode cur = root;
+        
+        while( cur != null ){
+            
+            // ans.add(cur.val);
+            if( cur.left == null ){
+                ans.add(cur.val);
+                cur = cur.right;
+            }else{
+                
+                TreeNode iop = cur.left; // inorder preprocessor
+                while( iop.right!=null && iop.right != cur ){
+                    iop = iop.right;
+                }
+                
+                if( iop.right == null ){
+                    iop.right = cur;
+                     ans.add(cur.val);
+                    cur = cur.left;
+                   
+                }else{
+                    iop.right = null;
+                    // ans.add(cur.val);                
+                    cur = cur.right;
+                }
+                
+            }            
+        }
         return ans;
     }
 }
