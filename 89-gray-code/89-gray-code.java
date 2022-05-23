@@ -15,6 +15,8 @@ class Solution {
         // for(int i=0 ; i<prev.size(); i++){
         //     ans.add( "0" + prev.get(i) );
         // }
+        
+        //adding from last to maintain 1 diff
         int one = 1<<(n-1);
         for(int i=prev.size()-1 ; i>=0 ; i--){
             prev.add( one + prev.get(i) );
