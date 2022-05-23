@@ -20,13 +20,15 @@ class Solution {
         
         if( root == null ) return ;
         
-        helper( root.left );
-        helper( root.right );
         
         if( sec > root.val && root.val > main ){
             sec = root.val;
             return;
         }
+        
+        helper( root.left );
+        helper( root.right );
+        
         
     }
     
