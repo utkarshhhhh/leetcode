@@ -5,13 +5,8 @@ class Solution {
         int ans = 0;
         for(int i: nums){
             
-            if( max < i ){
-                max = i;
-                ans = Math.max(max-min, ans);    
-            }else if( min > i ){
-                min = i;
-                max = i;
-            }
+            min = Math.min(min,i);
+            ans = Math.max(i-min, ans);    
             
         }
         return ans==0 ? -1 : ans;
