@@ -16,33 +16,30 @@
 class Solution {
     
     int count;
+    HashMap<Integer, Integer> map;
     public int pathSum(TreeNode root, int targetSum) {
         count = 0;
-        preorder( root, targetSum );
+        map = new HashMap<>();
+        map.put(0,1);
+        preorder( root, 0, targetSum );
         return count;
     }
     
-    private void preorder(TreeNode root, int target){
+    private void preorder(TreeNode root,int curSum, int target){
         
         if( root==null ) return;
         
-        counter(root,target, 0);
-        preorder(root.left,target);
-        preorder(root.right,target);
-    }
-    
-    private void counter(TreeNode root, int t, int sum){
+        curSum += root.val;
         
-        if( root==null ) return ;
-        
-        if( t==sum+root.val ){
-            count++;
+        if( map.containsKey(curSum - target) ){
+            count += map.get(curSum - target);
         }
         
-        counter(root.left,t,sum+root.val);
-        counter(root.right,t,sum+root.val);
+        map.put( curSum , map.getOrDefault(curSum,0) + 1 );
         
+        preorder(root.left, curSum, target);
+        preorder(root.right,curSum, target);
+        
+        map.put( curSum , map.get(curSum) - 1 );
     }
-    
-    
 }
