@@ -128,14 +128,7 @@ class Solution
         int left = helper(node.left);
         int right = helper(node.right) ;
         
-        // left = left==maxx ? 0 : left;
-        // right = right==maxx ? 0 : right;
         
-        
-        
-        // if( left==maxx && right==maxx ){
-        //     return node.data;
-        // }else 
         if( left==maxx ){
             return right + node.data;
         }else if(right==maxx ){
@@ -157,7 +150,8 @@ class Solution
         if( root.left != null && root.right != null ){
             return ans;
         }else
-            return Math.max(val,ans);
+            return Math.max(val,ans); // special case
+            //
         
         
     } 
