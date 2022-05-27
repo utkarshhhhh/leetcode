@@ -151,7 +151,7 @@ class Solution
             return ans;
         }else
             return Math.max(val,ans); // special case
-            //
+            // root as a leaf
         
         
     } 
