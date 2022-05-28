@@ -127,7 +127,18 @@ class Solution
     { 
         // Write your code here
         ans = Integer.MAX_VALUE;
-        helper(root,K);
+        // helper(root,K);
+        
+        while( root != null ){
+            
+            ans = Math.min(ans, Math.abs(root.data-K) );
+            if( root.data > K )
+                root = root.left;
+            else
+                root = root.right;
+        
+        }
+           
         return ans;
     } 
 }
