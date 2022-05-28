@@ -14,21 +14,14 @@ class Solution {
         }
         
         
-        PriorityQueue<Long> pq = new PriorityQueue<>( (a,b)->{
-            return (int)(b-a);
-        } );
+        // PriorityQueue<Long> pq = new PriorityQueue<>( (a,b)->{
+        //     return (int)(b-a);
+        // } );
         
+        Arrays.sort(graph);
+        long max = 0;
         for(int i=0 ; i<n ; i++){
-            pq.add( graph[i] );
-        }
-        
-        long max = 0L;
-        
-        while( !pq.isEmpty() ){
-            
-            long top = pq.poll();
-            max += (top*n);
-            n--;            
+            max += graph[i]*(i+1);
         }
         
         return max;
