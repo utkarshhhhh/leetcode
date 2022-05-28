@@ -15,7 +15,7 @@ class Solution {
             ar = queries[i];
             int l = ar[0], r = ar[1];
             
-            ans[i] = map.get(l)^map.get(r)^arr[l];
+            ans[i] = l>0 ? map.get(l-1)^map.get(r) : map.get(r);
             
         }
         return ans;
