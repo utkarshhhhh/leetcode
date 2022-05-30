@@ -14,43 +14,26 @@ class Solution {
         
         if( k > s ) return head;
         
-        ListNode cur = head, prev = null;
+        ListNode cur = head, prev = null, next = null;
         
         int temp = k;
-        ListNode next = null;
-        
-        while( cur != null && temp-- > 0 ){
-            
+                
+        while( cur != null && temp-- > 0 ){            
             next = cur.next;
             cur.next = prev;
             prev = cur;
             cur = next;            
         }
         
-        // ListNode newNode = prev.next;
-        // prev.next = null;
-        
         head.next = reverse( next, k, s-k );
         
         return prev;
     }
     
-    private int size(ListNode root){
-        
-        int s = 0;
-        
-        while( root!=null ) {
-            s++;
-            root = root.next;
-        }
-        
-        return s;
-    }
-    
     public ListNode reverseKGroup(ListNode head, int k) {
         
-        int s = size(head);
-        
+        int s = 0;        
+        for(ListNode t=head ; t!=null ; s++, t = t.next );    
         return reverse(head,k,s);
     }
 }
