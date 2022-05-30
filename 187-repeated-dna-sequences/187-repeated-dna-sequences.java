@@ -1,27 +1,40 @@
 class Solution {
+    
+    /*
+    app 1 : stringBuilder hash
+    app 2 : bit mask <<2
+    */
     public List<String> findRepeatedDnaSequences(String s) {
-        int[] hash = {0,1,2,3};
+        
+        if(s.length() < 10) return new ArrayList<>();
+        
+        int[] hash = new int[26];
+        hash['A'-'A'] = 0;
+        hash['C'-'A'] = 1;
+        hash['G'-'A'] = 2;
+        hash['T'-'A'] = 3;
         
         List<String> ans = new ArrayList<>();
-        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         char[] str = s.toCharArray();
         
-        StringBuilder sb = new StringBuilder();
-        for(int i=0 ; i<str.length ; i++ ){
+        int cur = 0;
+        // StringBuilder sb = new StringBuilder();
+        
+        for(int i=0 ; i<9 ; i++){
+            cur <<= 2;            
+            cur |= hash[ str[i]-'A' ];            
+        }
+        
+        for(int i=9 ; i<str.length ; i++ ){
             
-            sb.append( str[i] );
-            if( i < 9 ){                
-                continue;
-            }
-            
-            if( i!=9 )
-                sb.delete(0,1);
-            
-            String cur = sb.toString();
+            cur <<= 2;
+            cur &= 0xfffff;
+            cur |= hash[ str[i]-'A' ];
             
             if( map.containsKey(cur) ){
                 if(map.get(cur) == 1)
-                    ans.add(cur);
+                    ans.add( s.substring(i-9 , i+1) );
                 map.put( cur, 2 );
             }else{
                 map.put(cur, 1);
