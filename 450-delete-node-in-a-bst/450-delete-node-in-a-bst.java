@@ -28,18 +28,21 @@ class Solution {
         
         if( root == null ) return null;
         
-        if( root.val > key ){
-            root.left = deleteNode(root.left , key);
-        }else if( root.val < key ){
-            root.right = deleteNode(root.right , key);
+        
+        if( root.val < key ){
+            root.right = deleteNode(root.right, key);
+        }else if( root.val > key ){
+            root.left = deleteNode(root.left, key);
         }else{
             
-            if( root.left == null ||  root.right == null )
-                return root.left!=null?root.left : root.right;
+            if( root.left==null || root.right==null ){
+                return root.left==null ? root.right : root.left;
+            }
+            //max in left
+            int maxNode = max(root.left);
             
-            int ele = max( root.left );
-            root.val = ele;
-            root.left = deleteNode(root.left , ele);
+            root.val = maxNode;
+            root.left = deleteNode(root.left,maxNode);
         }
         
         return root;
