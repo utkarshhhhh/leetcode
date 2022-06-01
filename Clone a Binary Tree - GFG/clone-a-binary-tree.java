@@ -130,18 +130,57 @@ class Tree{
 	}
 }*/
 class Solution{
+    
+    public void clone(Tree root){
+        
+        if( root == null ) return;
+        
+        clone(root.left);
+        clone(root.right);
+        
+        Tree dup = new Tree( root.data );
+        
+        dup.left = root.left;
+        root.left = dup;
+        
+    }
+    
+    public void setRandoms(Tree root){
+        
+        if(root == null) return;
+        
+        setRandoms(root.left.left);
+        setRandoms(root.right);
+        
+        if(root.random != null)
+        root.left.random = root.random.left;
+        
+    }
+    
+    public Tree removeDup(Tree root){
+        
+        if(root == null) return null;
+
+        
+        Tree left = removeDup(root.left.left);
+        Tree right = removeDup(root.right);
+        
+        
+        Tree dup = root.left;
+        root.left = root.left.left;
+        dup.left = left;
+        dup.right = right;
+
+        return dup;
+    }
+    
+    
     public Tree cloneTree(Tree tree){
        // add code here
        
-       if( tree == null ){
-           return tree;
-       }
+       clone(tree);
+       setRandoms(tree);
        
-       Tree root = new Tree(tree.data);
-       root.random = tree.random;
-       root.left = cloneTree( tree.left );
-       root.right = cloneTree( tree.right );
-
-       return root;
+       return removeDup(tree);
      }
 }
