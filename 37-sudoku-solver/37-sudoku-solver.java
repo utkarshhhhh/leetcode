@@ -26,16 +26,16 @@ class Solution {
         return true;
     }
     
-    public void solver(char[][] board,int r, int c){
+    public boolean solver(char[][] board,int r, int c){
         
         if( r==9 ){
             
-            for(int i=0 ; i<9 ; i++){
-                for(int j=0 ; j<9 ; j++){
-                    ans[i][j] = board[i][j];
-                }
-            }
-            return;
+            // for(int i=0 ; i<9 ; i++){
+            //     for(int j=0 ; j<9 ; j++){
+            //         ans[i][j] = board[i][j];
+            //     }
+            // }
+            return true;
         }
         
         int nr = r, nc = c;
@@ -47,28 +47,29 @@ class Solution {
         }
         
         if( board[r][c] != '.' ){
-            solver(board,nr,nc);
+            return solver(board,nr,nc);
         }else{
             
             for(char n='1' ; n<='9' ; n++){
                 
                 if( valid(board,r,c,n) ){                    
                     board[r][c] = n;
-                    solver(board,nr,nc);
+                    if( solver(board,nr,nc) )
+                        return true;
                     board[r][c] = '.';                    
                 }                
             }            
         }
-        
+        return false;
     }
     
     public void solveSudoku(char[][] board) {
                
         solver(board,0,0);
-        for(int i=0 ; i<9 ; i++){
-                for(int j=0 ; j<9 ; j++){
-                    board[i][j] = ans[i][j];
-                }
-            }
+        // for(int i=0 ; i<9 ; i++){
+        //     for(int j=0 ; j<9 ; j++){
+        //         board[i][j] = ans[i][j];
+        //     }
+        // }
     }
 }
