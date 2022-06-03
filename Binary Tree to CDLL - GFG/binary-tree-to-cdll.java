@@ -143,33 +143,68 @@ class Solution
 { 
     //Function to convert binary tree into circular doubly linked list.
     
-    Node head, tail;
+    // Node head, tail;
     
-    void helper(Node root){
+    // void helper(Node root){
         
-        if(root == null) return;
+    //     if(root == null) return;
         
-        helper(root.left);
+    //     helper(root.left);
         
-        if( tail == null ){
-            head = root;
-        }else{
-            root.left = tail;
-            tail.right = root;
+    //     if( tail == null ){
+    //         head = root;
+    //     }else{
+    //         root.left = tail;
+    //         tail.right = root;
+    //     }
+    //     tail = root;
+        
+    //     helper(root.right);
+        
+    // }
+    
+    Node helper(Node root){
+        
+        if(root == null) return null;
+        
+        Node left = helper(root.left);
+        Node right = helper(root.right);
+        
+        Node r = root;
+        r.left = r.right = r;
+        
+        Node s1 = concat(left,root);
+        Node s2 = concat(s1,right);
+        
+        return s2;
+    }
+    
+    Node concat(Node h1,Node h2 ){
+        
+        if( h1==null ){
+            return h2;
         }
-        tail = root;
         
-        helper(root.right);
+        if( h2==null ){
+            return h1;
+        }
         
+        Node t1 = h1.left;
+        Node t2 = h2.left;
+        
+        t1.right = h2;
+        h2.left = t1;
+        
+        t2.right = h1;
+        h1.left = t2;
+        
+        return h1;
     }
     
     Node bTreeToClist(Node root)
     {
         //your code here
-        helper(root);
-        head.left = tail;
-        tail.right = head;
-        return head;
+        return helper(root);
     }
     
 }
