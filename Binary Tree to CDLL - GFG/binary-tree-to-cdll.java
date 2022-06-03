@@ -141,35 +141,36 @@ class Node{
 */
 class Solution
 { 
-    Node start;
-    Node prev;
-    private void helper(Node root)
-    {
-        if(root==null)
-        return;
-        helper(root.left);
-        //
-        if(prev==null)
-        {
-            start=root;
-        }
-        else
-        {
-            prev.right=root;
-            root.left=prev;
-        }
-        prev=root;
-        helper(root.right);
-    }
     //Function to convert binary tree into circular doubly linked list.
+    
+    Node head, tail;
+    
+    void helper(Node root){
+        
+        if(root == null) return;
+        
+        helper(root.left);
+        
+        if( tail == null ){
+            head = root;
+        }else{
+            root.left = tail;
+            tail.right = root;
+        }
+        tail = root;
+        
+        helper(root.right);
+        
+    }
+    
     Node bTreeToClist(Node root)
     {
         //your code here
         helper(root);
-        Node last=prev;
-        last.right=start;
-        start.left=last;
-        return start;
+        head.left = tail;
+        tail.right = head;
+        return head;
     }
     
 }
+    
