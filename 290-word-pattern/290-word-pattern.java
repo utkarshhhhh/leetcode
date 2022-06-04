@@ -1,4 +1,9 @@
 class Solution {
+    
+    // points to consider ::
+    // one to one mappin of pat char and word[i]
+    // revHash --- map string to pat char
+    
     public boolean wordPattern(String pattern, String s) {
         
         String[] str = s.split(" ");
