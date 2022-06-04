@@ -24,12 +24,7 @@ class Solution {
                 
                 if( revHash.get(word) != p ){
                     return false;
-                }
-                
-            }else{
-                
-                revHash.put(word, p);
-                
+                }                
             }
             
             if( hash.containsKey(p)){                
@@ -37,7 +32,8 @@ class Solution {
                     return false;
                 }
             }else{
-                hash.put(p,str[i]);
+                hash.put(p,word);
+                revHash.put(word, p);
             }
             
         }
