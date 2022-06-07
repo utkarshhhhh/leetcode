@@ -17,6 +17,41 @@ class Solution {
     
     int ans  = 0;
     
+    public int helper(TreeNode root){
+        
+        if( root == null) {
+            return 0;
+        }
+        
+        int left  = helper(root.left);
+        int right = helper(root.right);
+        
+        if( root.left != null ){
+            left = root.left.val==root.val ? left + 1 : 0;
+        }
+        
+        if( root.right != null ){
+            right = root.right.val==root.val ? right + 1 : 0;
+        }
+
+        ans = Math.max(left+right, ans);
+        
+        
+        return Math.max(left,right);
+    }
+    
+    public int longestUnivaluePath(TreeNode root) {
+        
+        if(root == null) return 0;
+        
+        helper( root );
+        return ans;
+    }
+}
+
+/*
+int ans  = 0;
+    
     public int helper(TreeNode root, int val){
         
         if( root == null) {
@@ -27,14 +62,7 @@ class Solution {
         int right = helper(root.right, root.val);
         ans = Math.max(left+right+1, ans);
         
-//         if( root.left != null ){
-//             left = root.left.val==val ? left + 1 : 0;
-//         }
-        
-//         if( root.right != null ){
-//             right = root.right.val==val ? right + 1 : 0;
-//         }
-        
+
         if( root.val == val )
             return Math.max(left,right) + 1;
         return 0;
@@ -47,4 +75,4 @@ class Solution {
         helper( root, 10001 );
         return ans-1;
     }
-}
+*/
