@@ -121,8 +121,39 @@ class Solution {
     
     public int KthSmallestElement(Node root, int K) {
         // Write your code here
-        idx = K;
-        helper( root );
-        return ans;
+        // idx = K;
+        // helper( root );
+        int c = 0;
+        int anss = -1;
+        
+        while( root != null ){
+            
+            if( root.left == null ){
+                c++;
+                if(c==K) return root.data;
+                root = root.right;
+            }else{
+                
+                Node ios = root.left;
+                
+                while( ios.right != null || ios.right != root ){
+                    ios = ios.right;
+                }
+                
+                if( ios.right == null ){
+                    ios.right = root;
+                    root = root.left;
+                }else{
+                    ios.right = null;
+                    c++;
+                    if(c==K) return root.data;
+                    
+                    root = root.right;
+                }
+                
+            }
+            
+        }
+        return -1;
     }
 }
