@@ -19,29 +19,32 @@ class Solution {
     
     public int helper(TreeNode root, int val){
         
-        if( root == null || root.val != val){
+        if( root == null) {
             return 0;
         }
-        int left  = helper(root.left, val);
-        int right = helper(root.right, val);
-        ans = Math.max(left+right+1, ans);
-        return Math.max(left,right) + 1;
-    }
-    
-    
-    public void pre(TreeNode root){
         
-        if( root == null){
-            return;
-        }
-        helper(root, root.val);
-        pre(root.left);
-        pre(root.right);
+        int left  = helper(root.left, root.val);
+        int right = helper(root.right, root.val);
+        ans = Math.max(left+right+1, ans);
+        
+//         if( root.left != null ){
+//             left = root.left.val==val ? left + 1 : 0;
+//         }
+        
+//         if( root.right != null ){
+//             right = root.right.val==val ? right + 1 : 0;
+//         }
+        
+        if( root.val == val )
+            return Math.max(left,right) + 1;
+        return 0;
     }
     
     public int longestUnivaluePath(TreeNode root) {
         
-        pre( root );
-        return ans==0?0:ans-1;
+        if(root == null) return 0;
+        
+        helper( root, 10001 );
+        return ans-1;
     }
 }
