@@ -53,6 +53,33 @@ public class Codec {
         if( data.length() == 0 ) return null;
         
         String[] dArr = data.split(" ");
+        
+        return dHelper( dArr );
+    }
+    
+    int idx = 0;
+    
+    public TreeNode dHelper( String[] darr ){
+        
+        if( darr[idx].equals(".") ){
+            idx++;
+            return null;            
+        }
+        
+        TreeNode root = new TreeNode();
+        root.val = Integer.parseInt( darr[idx++] );
+        root.left = dHelper( darr );
+        root.right = dHelper( darr );
+        return root;
+    } 
+}
+
+
+/*
+
+if( data.length() == 0 ) return null;
+        
+        String[] dArr = data.split(" ");
         Stack<Pair> st = new Stack<>();
         TreeNode head = new TreeNode( Integer.parseInt(dArr[0]) );
         int idx = 1;
@@ -78,7 +105,8 @@ public class Codec {
                 st.push( new Pair( left , 0) );
                 temp.s++;
             
-            }else if( temp.s == 1 ){
+            }
+            else if( temp.s == 1 ){
  
                 if( dArr[idx].equals(".") ){                    
                     temp.s++;
@@ -92,14 +120,14 @@ public class Codec {
                 st.push( new Pair( right , 0) );
                 temp.s++;
                 
-            }else{
+            }
+            else{
                 st.pop();
             }
             
         }
         return head;
-    }
-}
+*/
 
 // Your Codec object will be instantiated and called as such:
 // Codec ser = new Codec();
