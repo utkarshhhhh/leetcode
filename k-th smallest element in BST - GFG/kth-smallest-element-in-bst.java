@@ -136,7 +136,7 @@ class Solution {
                 
                 Node ios = root.left;
                 
-                while( ios.right != null || ios.right != root ){
+                while( ios.right != null && ios.right != root ){
                     ios = ios.right;
                 }
                 
