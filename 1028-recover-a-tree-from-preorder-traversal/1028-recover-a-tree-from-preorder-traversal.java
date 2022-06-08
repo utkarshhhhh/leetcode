@@ -39,6 +39,8 @@ class Solution {
         TreeNode node = new TreeNode(val);
         
         node.left = helper( s, depth+1 );
+        
+        if(node.left != null)
         node.right = helper( s, depth+1 );
         
         return node;
