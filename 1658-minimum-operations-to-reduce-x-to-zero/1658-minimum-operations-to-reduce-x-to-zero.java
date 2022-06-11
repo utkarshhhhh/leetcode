@@ -21,11 +21,8 @@ class Solution {
     public int minOperations(int[] nums, int x) {
         
         int n = nums.length;
-        int sum = 0;
+        int sum = Arrays.stream(nums).sum();
         
-        for(int i=0 ; i<n ; i++){
-            sum += nums[i];
-        }
         // find max Length of subarray that sums to sum-x;
         int targetSum = sum - x, ans = -1;
         int cur = 0;
