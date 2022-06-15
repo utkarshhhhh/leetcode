@@ -5,28 +5,32 @@ class Solution {
         int[] colors = new int[n];
         
         for(int i=0 ; i<n ; i++){
-            if( colors[i] == 0 && !dfs(graph,colors , 1, i ) ){
-                return false;
+            
+            if( colors[i] == 0 ){
+                if( !dfs(graph, i,1, colors) )
+                    return false;
             }
         }
         return true;
     }
     
-    public boolean dfs(int[][] graph , int[] colors , int color , int vertex){
+    private boolean dfs(int[][] graph, int src, int color, int[] colors){
         
-        if( colors[vertex] != 0 ){
-            return colors[vertex] == color;
+        if( colors[src] != 0 ){
+            return colors[src] == color;
         }
         
-        colors[vertex] = color;
+        colors[src] = color;
         
-        for( int nbr : graph[vertex] ){
-            
-            if( !dfs( graph , colors, -color , nbr ) ){
-                return false;
-            }   
+        for(int child : graph[src] ){
+        
+            if( child != src  ){
+                if( !dfs( graph, child, -color, colors ) ){
+                    return false;
+                }
+            }
         }
+        
         return true;
     }
-    
 }
