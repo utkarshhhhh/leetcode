@@ -93,7 +93,7 @@ class Solution
             for(int j=0 ; j<i ; j++){
                 
                 Box prev = arr[j];
-                if( prev.w > cur.w && prev.l > cur.l ){ //
+                if( prev.w > cur.w && prev.l > cur.l ){ // condition rev
                     val = Math.max(val, dp[j]);
                 }
                 
