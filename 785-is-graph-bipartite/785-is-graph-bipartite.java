@@ -6,9 +6,8 @@ class Solution {
         
         for(int i=0 ; i<n ; i++){
             
-            if( colors[i] == 0 ){
-                if( !dfs(graph, i,1, colors) )
-                    return false;
+            if( colors[i] == 0 && !dfs(graph, i,1, colors)){        
+                return false;
             }
         }
         return true;
@@ -24,10 +23,8 @@ class Solution {
         
         for(int child : graph[src] ){
         
-            if( child != src  ){
-                if( !dfs( graph, child, -color, colors ) ){
-                    return false;
-                }
+            if( !dfs( graph, child, -color, colors ) ){
+                return false;
             }
         }
         
