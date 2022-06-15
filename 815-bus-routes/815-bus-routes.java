@@ -2,12 +2,12 @@ class Solution {
     public int numBusesToDestination(int[][] routes, int source, int target) {
     
         if( source == target ) return 0;
-        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         
         // initialization ---- virtual map
         for(int bus=0 ; bus<routes.length ; bus++ ){
             for(int station : routes[bus]){   
-                HashSet<Integer> allBuses = map.getOrDefault(station, new HashSet<Integer>());
+                ArrayList<Integer> allBuses = map.getOrDefault(station, new ArrayList<Integer>());
                 allBuses.add(bus);
                 map.put( station, allBuses );
             }            
