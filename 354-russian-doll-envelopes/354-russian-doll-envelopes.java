@@ -3,29 +3,41 @@ class Solution {
         
         if(envelopes.length < 2) return envelopes.length;
         
-        Arrays.sort(envelopes, new EnvelopeComparator());
+        Arrays.sort(envelopes, (a,b)->{
+            return a[0]==b[0] ? b[1]-a[1] : a[0]-b[0];
+        } );
+        
         int[] dp = new int[envelopes.length];
         int size = 0;
         
-        for(int[] envelope: envelopes) {
-            // binary search
-            int left = 0, right = size, middle = 0;     // right = size
-            while(left < right) {
-                middle = left + (right - left) / 2;
-                if(dp[middle] < envelope[1]) left = middle + 1;
-                else right = middle;
+        for(int[] env : envelopes){
+            
+            int l=0, h = size;
+            
+            while( l < h){
+                
+                int mid = l + (h-l)/2;
+                
+                if( dp[mid] >= env[1] ){
+                    h = mid;
+                }else{
+                    l = mid+1;
+                }
+                
             }
             
-            // left is the right position to 'replace' in dp array
-            dp[left] = envelope[1];
-            if(left == size) size++;
+            dp[l] = env[1];
+            if( l == size ) size++;
+            
         }
+        
+        
         return size;
     }
     
-    class EnvelopeComparator implements Comparator<int[]> {
-        public int compare(int[] e1, int[] e2) {
-            return e1[0] == e2[0] ? e2[1] - e1[1] : e1[0] - e2[0];
-        }
-    }
+    // class EnvelopeComparator implements Comparator<int[]> {
+    //     public int compare(int[] e1, int[] e2) {
+    //         return e1[0] == e2[0] ? e2[1] - e1[1] : e1[0] - e2[0];
+    //     }
+    // }
 }
