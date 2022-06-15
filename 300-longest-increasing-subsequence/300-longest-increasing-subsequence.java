@@ -3,7 +3,7 @@ class Solution {
         
         int n = nums.length;
         int[] dp = new int[n];
-        int ans = 0;
+        int ans = 1;
         
         Arrays.fill(dp,1);
         
@@ -13,13 +13,9 @@ class Solution {
                     dp[i] = Math.max(dp[j] + 1, dp[i] );
                 }
             }
+             ans = Math.max(ans, dp[i]);
         }
         
-        int max = 0;
-        for(int x : dp)
-            max = Math.max(max, x);
-        
-        return max;
-        
+        return ans;
     }
 }
