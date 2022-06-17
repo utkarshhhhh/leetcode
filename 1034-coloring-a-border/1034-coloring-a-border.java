@@ -16,20 +16,23 @@ class Solution {
             return ;
         }
         
+        vis[r][c] = true;
         q.add( new Pair( r,c ) );
         
     }
     
-    boolean fill(int[][] grid, int r, int c, int x){
+    void fill(int[][] grid, int r, int c, boolean[][] vis, int color){
     
         int n = grid.length, m = grid[0].length;
 
-        boolean left = c>0 ? grid[r][c-1]==x : false ; 
-        boolean right = c<m-1 ? grid[r][c+1]==x : false ; 
-        boolean up = r>0 ? grid[r-1][c]==x : false ; 
-        boolean down = r<n-1 ? grid[r+1][c]==x : false ; 
+        boolean left = c>0 ? vis[r][c-1] : false ; 
+        boolean right = c<m-1 ? vis[r][c+1] : false ; 
+        boolean up = r>0 ? vis[r-1][c] : false ; 
+        boolean down = r<n-1 ? vis[r+1][c] : false ; 
     
-        return (left && right && up && down);
+        if( !(left && right && up && down) ){
+            grid[r][c] = color;
+        }
         
     }
     
@@ -42,34 +45,23 @@ class Solution {
         
         int org = grid[row][col];
         q.add(new Pair( row,col ));
+        vis[row][col] = true;
         
-        Queue<Pair> ans = new LinkedList<>();
         
         while( !q.isEmpty() ){
             Pair cur = q.poll();
             int r = cur.x, c = cur.y;
-            if( vis[r][c] ){
+            if( grid[r][c] != org ){
                 continue;
             }
-            
-            vis[r][c] = true;
-            // grid[r][c] = -grid[r][c];
             
             dfs( grid, r+1, c, org, vis, q );
             dfs( grid, r-1, c, org, vis, q );
             dfs( grid, r, c+1, org, vis, q );
             dfs( grid, r, c-1, org, vis, q );
             
-            if( !fill( grid, r,c , org ) )
-                ans.add( new Pair( r,c ) );
-            
-            // fill( grid,r,c, vis, color );
+            fill( grid,r,c, vis, color );
         }
-        
-        for(Pair p : ans){
-            grid[p.x][p.y] = color;
-        }
-        
         return grid;
     }
 }
