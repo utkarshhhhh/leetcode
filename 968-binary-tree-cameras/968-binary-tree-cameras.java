@@ -15,37 +15,38 @@
  */
 class Solution {
     
-    int ans = 0;
+    int Mon = 1;
+    int Unmon = 2;
+    int Cam = 3;
+    int ans;
     
-    final int cam = 1;
-    final int MON = 2;
-    final int UnMON = 3;
-    
-    public int helper(TreeNode root){
+    private int helper(TreeNode root){
         
-        if( root == null )
-            return MON;
-        
-        int left = helper(root.left);
-        int right = helper(root.right);
-        
-        if( left==UnMON || right==UnMON ){
-            ans++;
-            return cam;
-        }else if( left==cam || right==cam ){
-            return MON;
-        }else{
-            return UnMON;
+        if( root == null ){
+            return Mon;
         }
+        
+        int left = helper( root.left );
+        int right = helper( root.right );
+        
+        if( left == Unmon || right == Unmon ){
+            ans++;
+            return Cam;
+        }else if( left == Cam || right == Cam ){
+            return Mon;
+        } else{
+            return Unmon;
+        }
+        
     }
+    
     
     public int minCameraCover(TreeNode root) {
         
-        int status = helper(root);
+        ans = 0;
         
-        if( status == UnMON ){
-            return 1+ans;
-        }
+        int check = helper(root);
+        if(check == Unmon) ans++;
         
         return ans;
     }
