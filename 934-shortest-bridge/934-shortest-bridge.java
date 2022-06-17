@@ -83,14 +83,33 @@ class Solution {
             }
             if(found) break;
         }
-        
-        int ans = 10000;
-        
+        // bfs start        
+        boolean[][] vis = new boolean[grid.length][grid[0].length];
+
+        int ans = -1;
         while( q.size() > 0 ){
-            Pair curr = q.poll();
-            int cur = bfs( grid, curr.x, curr.y );
-            ans = Math.min( cur-1, ans );
+            
+            int size = q.size(); 
+            ans++;
+
+            for(int l=0 ; l<size ; l++){
+             
+                Pair p = q.poll();
+                int r = p.x, c = p.y;
+                if( vis[r][c] ){
+                    continue;
+                }
+                vis[r][c] = true;
+                if( grid[r][c] == 1 ){
+                    return ans-1;
+                }
+                
+                helper( grid, r+1, c, vis, q );
+                helper( grid, r-1, c, vis, q );
+                helper( grid, r, c+1, vis, q );
+                helper( grid, r, c-1, vis, q );
+            }
         }
-        return ans;
+        return -1;
     }
 }
