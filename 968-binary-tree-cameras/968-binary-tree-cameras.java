@@ -29,6 +29,7 @@ class Solution {
         int left = helper( root.left );
         int right = helper( root.right );
         
+        // check for unMon first ---- [0,0,0,null,null,null,0]
         if( left == Unmon || right == Unmon ){
             ans++;
             return Cam;
