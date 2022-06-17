@@ -30,7 +30,7 @@ class Solution {
         
         int n = grid.length, m = grid[0].length;
         
-        Queue<Pair> q = new LinkedList<>();
+        Queue<Pair> q = new ArrayDeque<>();
         init( grid, q );
         boolean[][] vis = new boolean[n][m];
         int Lvl = 0;
