@@ -30,6 +30,9 @@ class Solution
         }
         return (int)dp[N];
     }
+    
+    // here we are calc-ing structurally unique binary search trees 
+    // for calcing on bt multiply it by n!
 }
 
 
