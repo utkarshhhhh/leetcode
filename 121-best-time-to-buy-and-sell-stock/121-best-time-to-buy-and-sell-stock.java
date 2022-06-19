@@ -6,8 +6,8 @@ class Solution {
         
         for(int x : prices){
             
-            dpi0 = Math.max( dpi0, dpi1 + x );
-            dpi1 = Math.max( dpi1, - x );
+            dpi0 = Math.max( dpi0, dpi1 + x ); // sell prev bought stock
+            dpi1 = Math.max( dpi1, - x );       // buy new one
             
         }
         
