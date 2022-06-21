@@ -114,39 +114,41 @@ class Solution{
             if( s.charAt(i) == '|' ){
                 // true = 3 ways 
                 
-                // int trueWale = leftTrue*rightTrue + leftTrue*rightFalse + leftFalse*rightTrue ;
-                // int falseWale = leftFalse*rightFalse;
+                int trueWale = leftTrue*rightTrue + leftTrue*rightFalse + leftFalse*rightTrue ;
+                int falseWale = leftFalse*rightFalse;
                 
                 if( isTrue == 1 )
-                    ans += leftTrue*rightTrue + leftTrue*rightFalse + leftFalse*rightTrue ;
+                    ans += trueWale;
                 else
-                    ans += leftFalse*rightFalse;
+                    ans += falseWale;
             }else if( s.charAt(i) == '^' ){
                 // true = left right diff 
                 
-                // int trueWale =  leftTrue*rightFalse + leftFalse*rightTrue ;
-                // int falseWale = leftFalse*rightFalse + leftTrue*rightTrue;
+                int trueWale =  leftTrue*rightFalse + leftFalse*rightTrue ;
+                int falseWale = leftFalse*rightFalse + leftTrue*rightTrue;
                 
                 if( isTrue == 1 )
-                    ans += leftTrue*rightFalse + leftFalse*rightTrue ;
+                    ans += trueWale;
                 else
-                    ans += leftFalse*rightFalse + leftTrue*rightTrue;
+                    ans += falseWale;
                 
             }else{
                 
-                // int trueWale = leftTrue*rightTrue ;
-                // int falseWale = leftFalse*rightFalse + leftTrue*rightFalse + leftFalse*rightTrue ;
+                int trueWale = leftTrue*rightTrue ;
+                int falseWale = leftFalse*rightFalse + leftTrue*rightFalse + leftFalse*rightTrue ;
                 
                 if( isTrue == 1 )
-                    ans += leftTrue*rightTrue ;
+                    ans += trueWale;
                 else
-                    ans += leftFalse*rightFalse + leftTrue*rightFalse + leftFalse*rightTrue ;
+                    ans += falseWale;
                 
             }
             
         }
         return dp[isTrue][left][right] = ans%1003;
     }
+    
+    
     
     
     static int countWays(int N, String S){
