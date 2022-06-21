@@ -29,9 +29,30 @@ class GFG
 
 class Solution{
     
-    static int helper(int[] arr, int[][] dp, int left, int right){
+    // static int helper(int[] arr, int[][] dp, int left, int right){
         
-        if( left + 1 == right ){
+    //     if( left + 1 == right ){
+    //         return 0;
+    //     }
+        
+    //     if( dp[left][right] != -1 ){
+    //         return dp[left][right];
+    //     }
+        
+    //     int ans = Integer.MAX_VALUE;
+    //     for(int i=left+1 ; i<right ; i++){
+            
+    //         int temp = helper( arr,dp,left,i ) + helper( arr,dp,i, right ) + arr[left]*arr[i]*arr[right];
+            
+    //         ans = Math.min( ans, temp );
+    //     }
+        
+    //     return dp[left][right] = ans;
+    // }
+    
+    static int helper(int[] arr, int[][] dp, int left, int right){
+    
+        if(left +1 == right){    
             return 0;
         }
         
@@ -39,15 +60,15 @@ class Solution{
             return dp[left][right];
         }
         
-        int ans = Integer.MAX_VALUE;
-        for(int i=left+1 ; i<right ; i++){
+        int cur = Integer.MAX_VALUE;
+        for(int i=left+1; i<right ; i++){
             
-            int temp = helper( arr,dp,left,i ) + helper( arr,dp,i, right ) + arr[left]*arr[i]*arr[right];
+            int temp = helper( arr, dp, left,  i ) + helper( arr, dp, i, right );
             
-            ans = Math.min( ans, temp );
+            cur = Math.min( cur, temp + arr[left]*arr[i]*arr[right] );
         }
         
-        return dp[left][right] = ans;
+        return dp[left][right] = cur;
     }
     
     static int matrixMultiplication(int N, int arr[])
