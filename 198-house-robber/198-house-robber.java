@@ -13,9 +13,9 @@ class Solution {
 //         }
 //         return dp[n];
         
-        int prev = nums[0], prevprev = 0;
+        int prev = nums[0], prevprev = 0, cur = 0;
         for(int i=2 ; i<=n ; i++ ){
-            int cur = Math.max( prev , prevprev + nums[i-1] );
+            cur = Math.max( prev , prevprev + nums[i-1] );
             prevprev = prev;
             prev = cur;
             // cur = temp;
