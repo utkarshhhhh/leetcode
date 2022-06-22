@@ -1,4 +1,4 @@
-class Solution {
+ class Solution {
     
     public int lcs(String text1, String text2) {
         
@@ -21,9 +21,27 @@ class Solution {
     
     public int longestPalindromeSubseq(String s) {
         
-        StringBuilder sb = new StringBuilder(s);
+        // StringBuilder sb = new StringBuilder(s);        
+        // return lcs( s, sb.reverse().toString() );
+        int n = s.length();
+        int[][] dp = new int[n][n]; 
         
-        return lcs( s, sb.reverse().toString() );
         
+        // fill from downwords to upwards
+        for(int left  = n-1 ; left >= 0 ; left--){
+            
+            dp[left][left] = 1;
+            
+            for(int right = left+1 ; right < n  ; right++ ){
+                
+                if( s.charAt(left) == s.charAt(right) ){
+                    dp[left][right] = 2 + dp[left+1][right-1];
+                }else{
+                    dp[left][right] = Math.max( dp[left+1][right], dp[left][right-1] );
+                }
+
+            }            
+        }
+        return dp[0][n-1];
     }
 }
