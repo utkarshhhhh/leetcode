@@ -3,16 +3,24 @@ class Solution {
         int n = s.length(), start = 0, end = 0;
         boolean[][] dp = new boolean[n][n];
 
-        for (int len=0; len<n; len++) {
-            for (int i=0; i+len<n; i++) {
-                dp[i][i+len] = s.charAt(i) == s.charAt(i+len) && (len < 2 || dp[i+1][i+len-1]);
-                if (dp[i][i+len] && len > end - start) {
-                    start = i;
-                    end = i + len;
+        int st = 0, len = 1;
+        for( int l = n-1 ; l>=0 ; l-- ){
+            
+            dp[l][l] = true;
+            for( int r = l+1 ; r<n ; r++ ){
+                
+                // if( s.charAt(l) == s.charAt(r) ){
+                    dp[l][r] = s.charAt(l) == s.charAt(r) && (l+1 == r || dp[l+1][r-1] );
+                // }
+                
+                if( dp[l][r] && len < r-l + 1 ){
+                    st = l;
+                    len = r-l + 1;
                 }
+                
             }
+            
         }
-
-        return s.substring(start, end + 1);
+        return s.substring( st, st + len );
     }
 }
