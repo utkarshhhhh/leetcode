@@ -16,7 +16,7 @@ class Solution {
     
     public int helper(int[] cut, int i, int j, int[][] dp){
         
-        if( i+1>=j ){
+        if( i+1==j ){ // why
             return 0;
         }
         if( dp[i][j] != 0 ){
