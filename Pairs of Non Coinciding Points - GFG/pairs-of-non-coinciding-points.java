@@ -50,7 +50,8 @@ class Solution {
             if( y.containsKey( Y[i] ) ){
                 ans += y.get( Y[i] );
             }
-            
+         
+            // sub 2*[x,y] coz once ans will inc by x second by y butnot possible ie same points
             String s = X[i] + "#" + Y[i];
             
             if( str.containsKey( s ) ){
