@@ -3,27 +3,25 @@ class Solution {
         
         List<int[]> points = new ArrayList<>();
         
-        for(int i=0 ; i<buildings.length ; i++){
-            
-            points.add( new int[]{ buildings[i][0], -buildings[i][2] } );
-            points.add( new int[]{ buildings[i][1], buildings[i][2] } );
-             
+        for(int i=0 ; i<buildings.length ; i++){        
+            points.add( new int[]{ buildings[i][0], buildings[i][2] } ); // starting with -ve ht, sorting first
+            points.add( new int[]{ buildings[i][1], -buildings[i][2] } );             
         }
         
-        Collections.sort( points, (a,b)-> a[0]==b[0] ? a[1]-b[1] : a[0]-b[0] );
+        Collections.sort( points, (a,b)-> a[0]==b[0] ? b[1]-a[1] : a[0]-b[0] );
         
         List<List<Integer>> ans = new ArrayList<>();
-        PriorityQueue<Integer> pq = new PriorityQueue<>( (a,b)-> b-a );
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>( (a,b)-> b-a ); // maintain cur hts 
         pq.add(0);
         int curH = 0;
         
-        
         for(int[] h : points){
             
-            if( h[1] > 0 ){
-                pq.remove( h[1] );
+            if( h[1] < 0 ){
+                pq.remove( -h[1] );
             }else{
-                pq.offer( -h[1] );
+                pq.offer( h[1] );
             }
             
             int cur = pq.peek();
@@ -34,7 +32,7 @@ class Solution {
                 c.add( cur );
                 ans.add(c);
                 curH = cur;
-            }            
+            }
         }
         return ans;
     }
