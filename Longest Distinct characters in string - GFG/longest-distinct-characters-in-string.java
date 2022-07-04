@@ -35,7 +35,7 @@ class Solution{
             
             char c = S.charAt(j);
             
-            while( set.contains(c) && i<j){
+            while( set.contains(c)){
                 set.remove( S.charAt(i++) );
             }
             
