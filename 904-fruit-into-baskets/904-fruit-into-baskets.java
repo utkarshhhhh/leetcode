@@ -7,11 +7,9 @@ class Solution {
         
         for(int i=0 ; i<fruits.length ; i++){
             
-            int f = fruits[i];
+            map.put(  fruits[i],  map.getOrDefault(fruits[i], 0) + 1 );
             
-            map.put(  f,  map.getOrDefault(f, 0) + 1 );
-            
-            if( map.get(f) == 1 ) count++;
+            if( map.get(fruits[i]) == 1 ) count++;
             
             while( count > 2 ){
                 
