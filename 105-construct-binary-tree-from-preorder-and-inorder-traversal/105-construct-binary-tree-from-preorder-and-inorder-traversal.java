@@ -14,48 +14,32 @@
  * }
  */
 class Solution {
-    
-    HashMap<Integer, Integer> map ;
-    int preIdx;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    int ptr = 0;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         
-        map = new HashMap<>();
-        preIdx = 0;
-        for(int i=0 ; i<inorder.length ; i++){
-            map.put(inorder[i], i);
+        for(int i=0 ; i<preorder.length ; i++){
+            map.put( inorder[i], i );
         }
         
-        TreeNode tree = build(0,preorder.length-1, preorder);
-        return tree;
+        return build( preorder, 0, inorder.length-1 );
     }
     
-    private TreeNode build(int left,int right,int[] pre){
+    public TreeNode build(int[] preorder, int st, int end){
         
-        if( right < left){
-            return null;
+        if( st > end ) return null;
+        
+        if( st==end ){
+            return new TreeNode( preorder[ptr++] );
         }
         
-        int val = pre[preIdx++];
+        int val = preorder[ptr++];
         TreeNode node = new TreeNode( val );
+        int idx = map.get( val );
         
-        node.left = build(left, map.get( val ) -1 , pre);
-        node.right = build( map.get(val) + 1 ,right,  pre);
+        node.left = build( preorder, st , idx-1 );
+        node.right = build( preorder, idx+1, end );
         
         return node;
     }
 }
-
-// app 1
-//         if( pl > ph || il > ih ){
-//             return null;
-//         }
-        
-//         TreeNode node = new TreeNode( pre[pl] );
-        
-//         int idx = map.get( pre[pl] );
-//         int lhs = idx - il; // no of elem in left side
-        
-//         node.left = build(pl+1, pl+lhs , il, idx-1, pre);
-//         node.right = build( pl+lhs+1, ph , idx+1, ih , pre);
-        
-//         return node;
