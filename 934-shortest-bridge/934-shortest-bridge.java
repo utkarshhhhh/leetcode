@@ -1,114 +1,76 @@
 class Solution {
+    
     class Pair{
-        int x, y;
-        
+        int x, y;    
         Pair( int i, int j){
-            x = i;
-            y = j;
-        }
-        
+            x = i;  y = j;
+        }        
     }
     
-    private void dfs(int[][] grid, int r, int c, Queue<Pair> q){
+    int[] dir = { 0, 1, 0, -1, 0 };
+    
+    public void dfs(int[][] grid, int i, int j, Queue<Pair> q){
         
-        if( r<0 || r>=grid.length || c<0 || c>=grid[0].length || grid[r][c] != 1 ){
+        int n = grid.length;
+        if( i<0 || i>=n || j<0 || j>=n || grid[i][j]!=1){
             return ;
         }
-        grid[r][c] = 2;
-        q.add( new Pair(r,c) );
-        dfs( grid, r+1, c, q );
-        dfs( grid, r-1, c, q );
-        dfs( grid, r, c+1, q );
-        dfs( grid, r, c-1, q );
-
-    }
-    
-     private void helper(int[][] grid, int r, int c, boolean[][] vis, Queue<Pair> q){
-        
-        if( r<0 || r>=grid.length || c<0 || c>=grid[0].length || grid[r][c] == 2 || vis[r][c]){
-            return ;
-        }
-         
-        q.add( new Pair(r,c) );
-    }
-    
-    private int bfs( int[][] grid, int i, int j){
-        
-        Queue<Pair> q = new LinkedList<>();
+        grid[i][j] = 3;
         q.add( new Pair(i,j) );
-        boolean[][] vis = new boolean[grid.length][grid[0].length];
-
-        int ans = -1;
-        while( q.size() > 0 ){
-            
-            int size = q.size(); 
-            ans++;
-
-            for(int l=0 ; l<size ; l++){
-             
-                Pair p = q.poll();
-                int r = p.x, c = p.y;
-                if( vis[r][c] ){
-                    continue;
-                }
-                vis[r][c] = true;
-                if( grid[r][c] == 1 ){
-                    return ans;
-                }
-                
-                helper( grid, r+1, c, vis, q );
-                helper( grid, r-1, c, vis, q );
-                helper( grid, r, c+1, vis, q );
-                helper( grid, r, c-1, vis, q );
-            }
-        }
-        
-        return 10000;
+        for(int d=0 ; d<4 ; d++ ){
+            dfs( grid, i+dir[d] , j + dir[d+1], q );
+        }        
     }
     
+    public void bfs( int[][] grid, int i, int j, Queue<Pair> q ){
+        
+        int n = grid.length;
+        if( i<0 || i>=n || j<0 || j>=n || grid[i][j]==2){
+            return ;
+        }
+        q.add( new Pair( i,j ) );
+    }
     
     public int shortestBridge(int[][] grid) {
         
-        int n = grid.length, m = grid[0].length;
-        boolean found = false;
+        int n = grid.length;
         Queue<Pair> q = new LinkedList<>();
+        boolean flag = false;
         
+        // init one island
         for(int i=0 ; i<n ; i++){
-            for(int j=0 ; j<m ; j++){
+            for(int j=0 ; j<n ; j++){
                 if( grid[i][j] == 1 ){
-                    dfs(grid,i,j,q);
-                    found = true;
-                    break;
+                    dfs(grid, i,j, q);
+                    flag = true; break;
                 }
             }
-            if(found) break;
+            if( flag ) break;
         }
-        // bfs start        
-        boolean[][] vis = new boolean[grid.length][grid[0].length];
-
+        // init complete
+        
         int ans = -1;
+        
         while( q.size() > 0 ){
             
-            int size = q.size(); 
             ans++;
-
-            for(int l=0 ; l<size ; l++){
-             
-                Pair p = q.poll();
-                int r = p.x, c = p.y;
-                if( vis[r][c] ){
-                    continue;
-                }
-                vis[r][c] = true;
-                if( grid[r][c] == 1 ){
-                    return ans-1;
+            int size = q.size();
+            for(int i=0 ; i<size ; i++){
+                
+                Pair cur = q.poll();
+                int r = cur.x, c = cur.y;
+                
+                if( grid[r][c] == 1 ) return ans-1;
+                if( grid[r][c] == 2 ) continue;
+                
+                grid[r][c] = 2;
+                
+                for(int d=0 ; d<4 ; d++){
+                    bfs( grid, r+dir[d], c+dir[d+1] , q );
                 }
                 
-                helper( grid, r+1, c, vis, q );
-                helper( grid, r-1, c, vis, q );
-                helper( grid, r, c+1, vis, q );
-                helper( grid, r, c-1, vis, q );
             }
+            
         }
         return -1;
     }
