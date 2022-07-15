@@ -60,39 +60,71 @@ class Main {
 class Solution
 {
     //Function to return list containing vertices in Topological order. 
+    // static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    // {
+    //     // add your code here
+    //     // kahn
+        
+    //     int[] in = new int[V];
+    //     for( ArrayList<Integer> list : adj ){
+    //         for(int i : list){
+    //             in[i]++;
+    //         }
+    //     }
+        
+    //     Queue<Integer> q = new ArrayDeque<>();
+        
+    //     for(int i=0 ; i<V ; i++){
+    //         if( in[i] == 0 ) q.add(i);
+    //     }
+    //     // init comp
+        
+    //     int[] ans = new int[V];
+    //     int idx = 0;
+    //     while( q.size() > 0 ){
+            
+    //         int cur = q.poll();
+    //         ans[idx++] = cur;
+            
+    //         for( int nbr : adj.get(cur) ){
+    //             in[nbr]--;
+                
+    //             if(in[nbr] == 0) q.add(nbr);
+    //         }
+            
+    //     }
+    //     return ans;
+    // }
+    
+    static void dfs(int s, ArrayList<ArrayList<Integer>> graph, boolean[] vis, Stack<Integer> st ){
+        
+        if( vis[s] ){
+            return;
+        }
+        
+        for( int nbr : graph.get(s) ){
+            dfs( nbr, graph, vis, st );
+        }
+        
+        vis[s] = true;
+        st.push( s );
+    }
+    
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
-        // kahn
+        // topo
         
-        int[] in = new int[V];
-        for( ArrayList<Integer> list : adj ){
-            for(int i : list){
-                in[i]++;
-            }
-        }
+        boolean[] vis = new boolean[V];
         
-        Queue<Integer> q = new ArrayDeque<>();
+        Stack<Integer> st = new Stack<>();
         
         for(int i=0 ; i<V ; i++){
-            if( in[i] == 0 ) q.add(i);
+            if( !vis[i] ) 
+                dfs( i, adj, vis, st );
         }
-        // init comp
         
-        int[] ans = new int[V];
-        int idx = 0;
-        while( q.size() > 0 ){
-            
-            int cur = q.poll();
-            ans[idx++] = cur;
-            
-            for( int nbr : adj.get(cur) ){
-                in[nbr]--;
-                
-                if(in[nbr] == 0) q.add(nbr);
-            }
-            
-        }
-        return ans;
+        Collections.reverse(st);
+        return st.stream().mapToInt(i->i).toArray() ;
     }
 }
