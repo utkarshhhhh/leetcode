@@ -83,28 +83,25 @@ class GFG {
 
 class Solution
 {
-    public void topo(int s, ArrayList<Integer>[] graph, Stack<Character> st, boolean[] vis ){
+    public void topo(Character s, HashMap<Character , ArrayList<Character>> graph, Stack<Character> st, HashSet<Character> vis ){
         
-        // vis.add(s);
-        vis[s] = true;
+        vis.add(s);
         
-        for( int nbr : graph[s] ){
-            if( !vis[nbr] )
+        for( Character nbr : graph.get( s ) ){
+            if( !vis.contains(nbr) )
                 topo( nbr, graph, st, vis );
         }
         
-        st.push( (char)(s+'a') );
+        st.push( s );
     }
     
     public String findOrder(String [] dict, int N, int K)
     {
         // Write your code here
         
-        // HashMap< Character , ArrayList<Character> > graph = new HashMap<>();
-        ArrayList<Integer>[] graph = new ArrayList[K];
+        HashMap< Character , ArrayList<Character> > graph = new HashMap<>();
         
         // for(int i=0 ; i<26 ; i++) graph.add( new ArrayList<>() );
-        for(int i=0 ; i<K ; i++) graph[i] = new ArrayList<Integer>() ;
         
         
         for(int i=0 ; i<N-1 ; i++){
@@ -116,25 +113,24 @@ class Solution
                 char c1 = s1.charAt(j);
                 char c2 = s2.charAt(j);
                 
-                //   graph.put(c1, graph.getOrDefault(c1, new ArrayList<>()) );
-                //   graph.put(c2, graph.getOrDefault(c2, new ArrayList<>()) );
-                
                 if(c1 != c2){
-                //   graph.get(c1).add( c2 );  
-                    graph[c1-'a'].add( c2-'a' ); break;
-                }
+                  ArrayList<Character> list = graph.getOrDefault(c1, new ArrayList<>());
+                  list.add( c2 );  
+                  graph.put(c1, list);
+                  graph.put(c2, graph.getOrDefault(c2, new ArrayList<>()) );
+                  break;
+                } 
             }
         }
         // graph done
         
-        // HashSet<Character> vis = new HashSet<>();
-        boolean[] vis = new boolean[ K ];
+        HashSet<Character> vis = new HashSet<>();
         Stack<Character> st = new Stack<>();
         
-        for(int i=0 ; i<K ; i++){
+        for(Character s : graph.keySet() ){
             
-            if( !vis[i] ){
-                topo( i, graph, st, vis );
+            if( !vis.contains( s ) ){
+                topo( s, graph, st, vis );
             }
         }
         
