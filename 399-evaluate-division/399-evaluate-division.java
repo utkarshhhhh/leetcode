@@ -1,60 +1,82 @@
 class Solution {
     
-    private Map<String, Map<String , Double>> makeGraph(List<List<String>> equations, double[] values){
+    HashMap<String, String> parent;
+    HashMap<String, Double> mul;
         
-        Map<String, Map<String , Double>> graph = new HashMap<>();
-        
-        String u , v;
-        for(int i=0 ; i<equations.size() ; i++){
-            
-            u = equations.get(i).get(0);
-            v = equations.get(i).get(1);
-            
-            graph.putIfAbsent( u , new HashMap<>());
-            graph.get(u).put( v , values[i] );
-            
-            graph.putIfAbsent( v , new HashMap<>());
-            graph.get(v).put( u , 1/values[i] );
-            
-        }
-        return graph;
+    public void inGraph(String s){        
+        parent.put( s,s );
+        mul.put( s, 1.0 );
     }
     
-    private double dfs(Map<String, Map<String , Double>> graph , String src , String dest , Set<String> vis){
+    public String find(String s){
+        if( parent.get(s).equals(s) ) return s;
         
-        if( !graph.containsKey(src) ){
-            return -1.0;
-        }
+        String curPar = parent.get(s);
+        String findPar = find(curPar);
         
-        if( graph.get(src).containsKey(dest) ){
-            return graph.get(src).get(dest);
-        }
+        // mul
         
-        vis.add(src);
+        mul.put( s, mul.get(s)*mul.get(curPar) );
         
-        for( Map.Entry<String , Double> nbr : graph.get(src).entrySet() ){
-            
-            if( !vis.contains( nbr.getKey() ) ){
-               
-                double wt = dfs(graph , nbr.getKey() , dest , vis );
-                
-                if( wt != -1.0 )
-                    return nbr.getValue()*wt;
-            }
-        }
-        return -1.0;
+        parent.put( s, findPar );
+        return findPar;
     }
-    
     
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
         
-        Map<String, Map<String , Double>> graph = makeGraph(equations, values);
-        double[] ans = new double[queries.size()];
-        
-        for(int i=0 ; i<queries.size() ; i++){
-            ans[i] = dfs( graph , queries.get(i).get(0) , queries.get(i).get(1) , new HashSet<String>() );
+        parent = new HashMap<>();
+        mul = new HashMap<>();
+
+        for(List<String> eq : equations){
+            inGraph( eq.get(0) );
+            inGraph( eq.get(1) );
         }
         
+        // union
+        int i=0;
+        for(List<String> eq : equations){
+            String s1 = eq.get(0) ;
+            String s2 = eq.get(1) ;
+            
+            String l1 =  find(s1); // lead1
+            String l2 =  find(s2); // lead2
+            
+            Double d1 = mul.get(s1);
+            Double d2 = mul.get(s2);
+            
+            mul.put( l1, d2*values[i]/d1 );
+            parent.put(l1, l2);
+            i++;
+        }
+        
+        double[] ans = new double[ queries.size() ];
+        i=0;
+        for( List<String> l : queries ){
+            
+            String s1 = l.get(0) ;
+            String s2 = l.get(1) ;
+            
+            if( !parent.containsKey(s1) || !parent.containsKey(s2) ){
+                ans[i] = -1.0;
+                i++;
+                continue;
+            }
+            
+            String l1 =  find(s1); // lead1
+            String l2 =  find(s2); // lead2
+            
+            if( !l1.equals(l2) ){
+                ans[i] = -1.0;
+                i++;
+                continue;
+            }
+            
+            Double d1 = mul.get(s1);
+            Double d2 = mul.get(s2);
+            
+            ans[i] = d1/d2;
+            i++;
+        }
         return ans;
     }
 }
