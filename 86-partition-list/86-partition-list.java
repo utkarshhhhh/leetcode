@@ -15,7 +15,7 @@ class Solution {
         ListNode r = new ListNode(0);
         ListNode lHead = l, rHead = r;
         while( head!=null ){
-            ListNode next = head.next;
+            
             if( head.val < x ){
                 l.next = head;
                 l = l.next;
@@ -23,10 +23,9 @@ class Solution {
                 r.next = head;
                 r = r.next;
             }
-            head.next = null;
-            head = next;
+            head = head.next;
         }
-        
+        r.next = null;
         l.next = rHead.next;
         return lHead.next;
     }
