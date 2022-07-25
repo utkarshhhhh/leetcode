@@ -11,44 +11,43 @@ class Solution {
             }
         }
         
-        vis = new boolean[n]; ans = new boolean[n];
+        vis = new int[n]; 
+        // ans = new boolean[n];
         
         for(int i=0 ; i<n ; i++){
-            if( !vis[i] ){
-                dfs( i, -1, map );
+            if( vis[i]==0 ){
+                dfs( i, map );
             }
         }
         
         List<Integer> list = new ArrayList<>();
         for(int i=0 ;i<n ; i++){
-            if(ans[i]) list.add(i);
+            if(vis[i]==2) list.add(i);
         }
         return list;
     }
     
-    boolean[] vis, ans;
+    int[] vis, ans;
     
-    public boolean dfs(int s, int p, HashMap<Integer, ArrayList<Integer>> graph){
+    public boolean dfs(int s, HashMap<Integer, ArrayList<Integer>> graph){
         
-        if( ans[s] ) return true;
-    
-        if( vis[s] ){
-            return false;
+        if( vis[s] != 0){
+            return vis[s] == 2;
         }
         
-        vis[s] = true;
-        boolean cur = true;
+        vis[s] = 1;
         
         for(int nbr : graph.get(s)){
         
-            if( !dfs(nbr, s, graph) ){
-                cur = false;
+            if( !dfs(nbr,graph) ){
+                // cur = false;
                 // break;
+                return false;
             }
             
         }        
-        ans[s] = cur;
-        return cur;
+        vis[s] = 2;
+        return true;
     }
     
 }
