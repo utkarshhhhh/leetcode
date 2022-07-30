@@ -21,7 +21,7 @@ class Solution {
         int ans = 0;
         
         for( int i=0, j=n-1 ; i<j ; i++, j-- ){
-            ans += Math.abs( nums[j] - nums[i] );
+            ans += nums[j] - nums[i];
         }
         
         return ans;
