@@ -1,26 +1,28 @@
 class Solution {
     
-    public int helper(int sr, int sc ,int dr, int dc, int[][] dp){
+    int[][] dp;
+    
+    public int helper(int sr, int sc, int dr, int dc){
         
-        if(sr>dr || sc>dc){
+        if( sr>dr || sc>dc ){
             return 0;
         }
+        
         if( dp[sr][sc] != 0 ){
             return dp[sr][sc];
         }
         
-        if(sr==dr && sc==dc){
+        if( sr==dr && sc==dc ){
             return dp[sr][sc] = 1;
         }
         
-        return dp[sr][sc] = helper(sr+1 , sc , dr, dc, dp) + helper(sr , sc+1 , dr, dc, dp);
+        return dp[sr][sc] = helper(sr+1, sc, dr, dc) + helper(sr, sc+1, dr, dc);    
         
     }
     
     public int uniquePaths(int m, int n) {
         
-        int[][] dp = new int[m][n];
-        return helper(0,0,m-1,n-1,dp);
-        
+        dp = new int[m+1][n+1];
+        return helper(1,1,m,n);
     }
 }
