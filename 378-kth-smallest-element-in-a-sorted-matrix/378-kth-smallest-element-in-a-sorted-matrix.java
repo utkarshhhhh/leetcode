@@ -1,30 +1,24 @@
 class Solution {
-    
-    class pair{
-        int r , c, num;
-        pair(int x, int y, int n){
-            r = x;
-            c = y;
-            num = n;
-        }
-    }
-    
     public int kthSmallest(int[][] matrix, int k) {
-     
-        PriorityQueue<pair> pq = new PriorityQueue<>( (a,b)-> a.num - b.num );
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>( (a,b)->{
+            return a[2] - b[2];
+        } );
         
         int n = matrix.length , m = matrix[0].length;
         for(int i=0 ; i<n ; i++){
-            pq.offer( new pair( i,0,matrix[i][0] ) );
+            pq.offer( new int[]{ i,0,matrix[i][0] } );
         }
         
-        int count = 0;
-        while( count < k-1 ){            
-            pair cur = pq.poll();            
-            if( cur.c +1 < m ) pq.offer( new pair( cur.r, cur.c+1, matrix[ cur.r ][ cur.c+1 ] ) );            
-            count++;
+        for(int i=0 ; i<k-1 ; i++){
+            
+            int[] cur = pq.poll();
+            int r = cur[0], c = cur[1], val = cur[2];
+            if( c+1 < n ){
+                pq.offer( new int[]{ r, c+1, matrix[r][c+1] } );
+            }            
         }
         
-        return pq.peek().num;
+        return pq.poll()[2];
     }
 }
