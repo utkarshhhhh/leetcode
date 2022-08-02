@@ -6,19 +6,21 @@ class Solution {
         boolean[] primes = new boolean[n];
         int ans = 0;
         
-        primes[0] = primes[1] = false;
+        // primes[0] = primes[1] = false;
         
-        for(int i=2 ; i<n ; i++){
+        for(int i=2 ; i*i<n ; i++){
             
             if( !primes[i] ){
-                ans++;
-                // System.out.print(i +" ");
+                // ans++;
                 for(int mul = 2 ; mul*i < n ; mul++){                
                     primes[ i*mul ] = true;                    
                 }                
             }
         }
         
-        return ans;
+        for( boolean x : primes )
+            ans += !x ? 1 : 0;
+        
+        return ans-2;
     }
 }
