@@ -1,32 +1,69 @@
 class Solution {
-    public List<Integer> countSmaller(int[] nums) {
-    LinkedList<Integer> result = new LinkedList<>();
-        List<Integer> list = new ArrayList<>();
-        for(int i = nums.length-1; i >= 0; i--) {
-            int idx = binarySearch(list, nums[i]);
-            result.addFirst(idx);
-            list.add(idx, nums[i]);
+    
+    class Pair{
+        int idx, val;
+        Pair(int i,int v){
+            idx = i;
+            val = v;
         }
-        return result;
     }
     
-	//Returns index of the first number that is equal to or bigger than num
-    public int binarySearch(List<Integer> list, int num) {
-        int left = 0;
-        int right = list.size()-1;
-        int mid;
-        while(left < right) {
-            mid = left + (right-left)/2;
-            if(list.get(mid) < num) {
-                left = mid+1;
-            }
-            else {
-                right = mid;
-            }
+    int[] ans;
+    public List<Integer> countSmaller(int[] nums) {
+        
+        int n = nums.length;
+        Pair[] p = new Pair[n];
+        
+        for(int i=0 ; i<n ; i++){
+            p[i] = new Pair( i, nums[i] );
         }
-        if(!list.isEmpty() && list.get(left) < num) {
-            return left+1;
-        }
-        return left;
+        
+        ans = new int[n];
+        merge(p, 0, n-1);
+        
+        List<Integer> arr = new ArrayList<>();
+        for(int x : ans) arr.add(x);
+        return arr;
     }
+    
+    public Pair[] merge( Pair[] arr, int st, int end ){
+        
+        if( st == end ){
+            return new Pair[]{ arr[st] };
+        }
+        
+        int mid = (st+end)/2;
+        
+        Pair[] left = merge(arr, st, mid);
+        Pair[] right = merge(arr, mid+1, end);
+        
+        return merge2(left, right);
+    }
+    
+    public Pair[] merge2(Pair[] left, Pair[] right){
+        
+        int n = left.length, m = right.length;
+        Pair[] arr = new Pair[n+m];
+        int i=0, j=0, k=0;
+        while( i<n && j<m ){
+            
+            if( left[i].val > right[j].val  ){
+                ans[ left[i].idx ] += (m-j) ;
+                arr[k++] = left[i++] ;
+            }else{
+                arr[k++] = right[j++] ;
+            }
+            
+        }
+        
+        while( i<n ){
+            arr[k++] = left[i++] ;
+         }
+        
+        while( j<m ){
+            arr[k++] = right[j++] ;
+         }
+        return arr;
+    }
+    
 }
