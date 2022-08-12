@@ -1,6 +1,6 @@
 class Solution {
     
-    HashSet<List<Integer>> ans;
+    List<List<Integer>> ans;
     
     void swap(int[] arr, int i, int j){
         int temp = arr[i];
@@ -27,8 +27,8 @@ class Solution {
     }
     
     public List<List<Integer>> permute(int[] nums) {
-        ans = new HashSet<>();
+        ans = new ArrayList<>();
         solve(nums,0);
-        return new ArrayList<>(ans);
+        return ans;
     }
 }
