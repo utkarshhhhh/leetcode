@@ -10,20 +10,14 @@
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-     
-        TreeNode cur = root;
         
-       while( cur!=null ){
-           
-           if( cur.val > p.val && cur.val > q.val ){
-               cur = cur.left;
-           }else if( cur.val < p.val && cur.val < q.val ){
-               cur = cur.right;
-           }else
-               return cur;
-           
-       }
+        if( root == null || root == p || root == q ){
+            return root;
+        }
         
-        return null;
+        TreeNode left = lowestCommonAncestor( root.left, p, q );
+        TreeNode right = lowestCommonAncestor( root.right, p, q );
+        
+        return left != null && right != null ? root : right == null ? left : right;
     }
 }
