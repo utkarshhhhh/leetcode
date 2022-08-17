@@ -8,7 +8,8 @@ class Solution {
             int mid = (lo+hi)>>1;
             int count = 0;
             
-            for( int i=1, j = m ; i<=n ; i++ ){
+            int j = m;
+            for( int i=1 ; i<=n ; i++ ){
                 
                 while( j>=1 && i*j > mid ){
                     j--;
