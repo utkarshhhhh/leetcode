@@ -11,10 +11,11 @@ class Solution {
             
             int count = 0;
             // count
+            int j = n-1;
             
             for(int i=0 ; i<n ; i++){
                 
-                int j = n-1;
+                
                 
                 while( j>=0 && matrix[i][j] > mid ){
                     j--;
