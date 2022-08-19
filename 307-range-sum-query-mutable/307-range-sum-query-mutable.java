@@ -1,37 +1,76 @@
 class NumArray {
-
-  int[] tree;
-    int n;
-
-    public NumArray(int[] nums) {
-        n = nums.length;
-        tree = new int[n << 1];
-        buildTree(nums);
+    
+    class Node{
+        int val;
+        Node left, right;
+        int start,end;
+        
     }
-
-    private void buildTree(int[] nums) {
-        for (int i = n; i < n << 1; i++) {
-            tree[i] = nums[i - n];
-        }
-
-        for (int i = n - 1; i > 0; i--) {
-            tree[i] = tree[i << 1] + tree[i << 1 | 1];
-        }
+    Node root;
+    public NumArray(int[] nums) {        
+        root = construct( nums, 0, nums.length-1 );        
     }
-
-    void update(int i, int val) {
-        for (tree[i += n] = val; i > 0; i >>= 1) {
-            tree[i >> 1] = tree[i] + tree[i ^ 1];
+    
+    Node construct(int[] arr, int i, int j){
+        
+        if( i==j ){
+            Node base = new Node();
+            base.val = arr[i];
+            base.start = base.end = i;
+            return base;
         }
+        
+        Node cur = new Node();
+        int m = (i+j)>>1;
+        cur.start = i;
+        cur.end = j;
+        cur.left = construct(arr, i, m);
+        cur.right = construct(arr, m+1, j);
+        
+        cur.val = cur.left==null ? 0 : cur.left.val;
+        cur.val += cur.right==null ? 0 : cur.right.val;
+        return cur;
     }
-
-    public int sumRange(int i, int j) {
-        int ret = 0;
-        for (i += n, j += n; i <= j; i >>= 1, j >>= 1) {
-            if ((i & 1) == 1) ret += tree[i++];
-            if ((j & 1) == 0) ret += tree[j--];
+    
+    void update(Node node, int idx, int val){
+        
+        if( node.start == node.end ){
+            node.val = val;
+            return;
         }
-        return ret;
+        
+        int m = (node.start + node.end)>>1;
+        
+        if( m >= idx ){
+            update(node.left, idx, val);
+        }else{
+            update(node.right, idx, val);
+        }
+        
+        node.val = node.left==null ? 0 : node.left.val;
+        node.val += node.right==null ? 0 : node.right.val;
+        
+        return;
+    }
+    
+    public void update(int index, int val) {
+        update( root, index, val );
+    }
+    
+    int getSum(Node root, int left, int right){
+        
+        if( root == null || root.start > right || root.end < left ){
+            return 0;
+        }else if(root.end <= right && root.start >= left ){
+            return root.val;
+        }else{
+            return getSum(root.left, left, right) + getSum(root.right, left, right);
+        }
+        
+    }
+    
+    public int sumRange(int left, int right) {
+        return getSum(root, left, right);
     }
 }
 
