@@ -1,76 +1,52 @@
 class NumArray {
-    
-    class Node{
-        int val;
-        Node left, right;
-        int start,end;
-        
-    }
-    Node root;
-    public NumArray(int[] nums) {        
-        root = construct( nums, 0, nums.length-1 );        
-    }
-    
-    Node construct(int[] arr, int i, int j){
-        
-        if( i==j ){
-            Node base = new Node();
-            base.val = arr[i];
-            base.start = base.end = i;
-            return base;
+
+    class Fenwik{
+        int[] farr;
+        Fenwik(int[] nums){
+            farr = new int[nums.length+1];
+            
+            for(int i=0 ; i<nums.length ; i++){
+                update( i+1, nums[i] );
+            }
         }
         
-        Node cur = new Node();
-        int m = (i+j)>>1;
-        cur.start = i;
-        cur.end = j;
-        cur.left = construct(arr, i, m);
-        cur.right = construct(arr, m+1, j);
+        void update(int pos, int del){            
+            while( pos < farr.length ){
+                farr[pos] += del;
+                pos += rsb(pos);
+            }            
+        }
         
-        cur.val = cur.left==null ? 0 : cur.left.val;
-        cur.val += cur.right==null ? 0 : cur.right.val;
-        return cur;
+        int sum(int pos){  
+            int ans = 0;
+            while( pos > 0 ){
+                ans += farr[pos];
+                pos -= rsb(pos);
+            }        
+            return ans;
+        }
+        
+        int rsb(int pos){
+            return pos&(-pos);
+        }
     }
     
-    void update(Node node, int idx, int val){
+    Fenwik fa;
+    int[] oarr;
+    public NumArray(int[] nums) {
+        fa = new Fenwik(nums);
+        oarr = nums;
         
-        if( node.start == node.end ){
-            node.val = val;
-            return;
-        }
-        
-        int m = (node.start + node.end)>>1;
-        
-        if( m >= idx ){
-            update(node.left, idx, val);
-        }else{
-            update(node.right, idx, val);
-        }
-        
-        node.val = node.left==null ? 0 : node.left.val;
-        node.val += node.right==null ? 0 : node.right.val;
-        
-        return;
     }
     
     public void update(int index, int val) {
-        update( root, index, val );
-    }
-    
-    int getSum(Node root, int left, int right){
-        
-        if( root == null || root.start > right || root.end < left ){
-            return 0;
-        }else if(root.end <= right && root.start >= left ){
-            return root.val;
-        }else{
-            return getSum(root.left, left, right) + getSum(root.right, left, right);
-        }
-        
+        int del = val - oarr[index];
+        fa.update(index+1, del);
+        oarr[index] = val;
     }
     
     public int sumRange(int left, int right) {
-        return getSum(root, left, right);
+        return fa.sum(right+1) - fa.sum(left);
     }
 }
 
